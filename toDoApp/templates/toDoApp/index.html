@@ -1,0 +1,30 @@
+{% extends "toDoApp/base.html" %}
+
+{% block content %}
+    <form>
+        <table>
+            <tr>
+                <th>Description</th>
+                <th></th>
+            </tr>
+            <tr>
+                {% for task in tasks %}
+                    <td>{{task.description}}</td>
+                    <td>
+                        {% csrf_token%}
+                        <button type=submit formmethod="post" name="delete" 
+                            formaction="{% url 'delete_task' task.id %}">Delete</button>
+                    </td>
+                    <td><button hx-get="{% url 'edit_task' task.id %}"
+                                            hx-trigger="click" hx-swap="outerHTML">Edit</button> 
+                    </td>
+            </tr>
+                {% endfor %}
+                <tr><td>
+                        <button hx-get="{% url 'create_task' %}"
+                                            hx-trigger="click" hx-swap="outerHTML">Create</button> 
+                </td></tr>
+        </table>
+    </form>
+
+{% endblock content %}
